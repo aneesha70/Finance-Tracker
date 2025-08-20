@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // DOM Elements
+
     const descriptionInput = document.getElementById('description');
     const amountInput = document.getElementById('amount');
     const typeInput = document.getElementById('type');
@@ -13,22 +13,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const filterCategory = document.getElementById('filter-category');
     const chartContainer = document.getElementById('chart');
     
-    // Store transactions
+   
     let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     
-    // Initialize the app
+    
     function init() {
         renderTransactions();
         updateSummary();
         updateChart();
         
-        // Add event listeners
+        
         addButton.addEventListener('click', addTransaction);
         filterType.addEventListener('change', renderTransactions);
         filterCategory.addEventListener('change', renderTransactions);
     }
     
-    // Add a new transaction
     function addTransaction() {
         const description = descriptionInput.value.trim();
         const amount = parseFloat(amountInput.value);
@@ -56,12 +55,12 @@ document.addEventListener('DOMContentLoaded', function() {
         updateSummary();
         updateChart();
         
-        // Clear input fields
+        
         descriptionInput.value = '';
         amountInput.value = '';
     }
     
-    // Delete a transaction
+    
     function deleteTransaction(id) {
         transactions = transactions.filter(transaction => transaction.id !== id);
         saveTransactions();
@@ -70,17 +69,16 @@ document.addEventListener('DOMContentLoaded', function() {
         updateChart();
     }
     
-    // Save transactions to localStorage
+
     function saveTransactions() {
         localStorage.setItem('transactions', JSON.stringify(transactions));
     }
     
-    // Render transactions based on filters
+ 
     function renderTransactions() {
         const typeFilter = filterType.value;
         const categoryFilter = filterCategory.value;
         
-        // Filter transactions
         let filteredTransactions = transactions;
         
         if (typeFilter !== 'all') {
@@ -95,10 +93,10 @@ document.addEventListener('DOMContentLoaded', function() {
             );
         }
         
-        // Clear the list
+        
         expensesList.innerHTML = '';
         
-        // Add transactions to the list
+       
         if (filteredTransactions.length === 0) {
             expensesList.innerHTML = '<tr><td colspan="5" style="text-align: center;">No transactions found</td></tr>';
             return;
@@ -107,11 +105,11 @@ document.addEventListener('DOMContentLoaded', function() {
         filteredTransactions.forEach(transaction => {
             const row = document.createElement('tr');
             
-            // Format amount based on type
+          
             const amountClass = transaction.type === 'income' ? 'income-amount' : 'expense-amount';
             const amountPrefix = transaction.type === 'income' ? '+' : '-';
             
-            // Create category badge with color
+          
             const categoryColors = {
                 food: '#e74c3c',
                 transport: '#3498db',
@@ -136,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
             expensesList.appendChild(row);
         });
         
-        // Add event listeners to delete buttons
+    
         document.querySelectorAll('.delete-btn').forEach(button => {
             button.addEventListener('click', function() {
                 const id = parseInt(this.getAttribute('data-id'));
@@ -145,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Update summary
+
     function updateSummary() {
         const totalIncome = transactions
             .filter(transaction => transaction.type === 'income')
@@ -161,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
         totalExpensesElement.textContent = `$${totalExpenses.toFixed(2)}`;
         balanceElement.textContent = `$${balance.toFixed(2)}`;
         
-        // Change balance color based on value
+    
         if (balance < 0) {
             balanceElement.style.color = '#e74c3c';
         } else {
@@ -169,7 +167,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Update chart
     function updateChart() {
         const categories = {
             food: 0,
@@ -179,18 +176,17 @@ document.addEventListener('DOMContentLoaded', function() {
             shopping: 0,
             other: 0
         };
-        
-        // Calculate total expenses per category
+  
         transactions
             .filter(transaction => transaction.type === 'expense')
             .forEach(transaction => {
                 categories[transaction.category] += transaction.amount;
             });
         
-        // Clear previous chart
+     
         chartContainer.innerHTML = '';
         
-        // Create chart bars
+    
         const maxAmount = Math.max(...Object.values(categories));
         
         for (const [category, amount] of Object.entries(categories)) {
@@ -223,6 +219,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Initialize the application
+  
     init();
 });

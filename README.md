@@ -27,6 +27,6 @@ Expense-Tracker/
 
 ##  Screenshots
 
-[Expense Tracker](images/Screenshot-1.png)
-[Expense Tracker](images/Screenshot-2.png)
+[Expense Tracker](images/img-1.png)
+[Expense Tracker](images/img-2.png)
 
